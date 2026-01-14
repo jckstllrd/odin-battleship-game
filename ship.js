@@ -6,7 +6,10 @@ class Ship {
   }
 
   hit() {
-    this.hits = this.hits + 1;
+    if (!this.sunk) {
+      this.hits = this.hits + 1
+      this.isSunk()
+    };
   }
 
   isSunk() {
