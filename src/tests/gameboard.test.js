@@ -1,5 +1,5 @@
-import { Gameboard } from "./gameboard";
-import { Ship } from "./ship";
+import { Gameboard } from "../modules/gameboard";
+import { Ship } from "../modules/ship";
 
 it("should create an object with a 10x10 board in the constructor", () => {
   const gameboard = new Gameboard();
