@@ -32,10 +32,10 @@ it("should correctly place a ship at the given coordinates", () => {
   expect(gameboard.board[1][3]).not.toBeNull();
 });
 
-it("should correctly place a ship based on orientation", () => {
+it("should correctly place a ship based on orientation of gameboard", () => {
   const gameboard = new Gameboard();
   const ship = new Ship(3);
-  ship.orientation = "v";
+  gameboard.axis = "y";
   gameboard.placeShip(ship, [1, 1]);
 
   expect(gameboard.board[1][1]).not.toBeNull();
@@ -46,17 +46,18 @@ it("should correctly place a ship based on orientation", () => {
 it("should not place a ship if there is already a ship there", () => {
   const gameboard = new Gameboard();
   const shipOne = new Ship(3);
-  gameboard.placeShip(shipOne, [1,1])
-  const shipTwo = new Ship(3)
+  gameboard.placeShip(shipOne, [1, 1]);
+  const shipTwo = new Ship(3);
+
   expect(gameboard.placeShip(shipTwo, [1, 1])).not.toBeTruthy();
 });
 
 it("should not place a ship if there will be a collision", () => {
   const gameboard = new Gameboard();
   const shipOne = new Ship(3);
-  gameboard.placeShip(shipOne, [5,1])
-  const shipTwo = new Ship(5)
-  shipTwo.orientation = 'v'
+  gameboard.placeShip(shipOne, [5, 1]);
+  const shipTwo = new Ship(5);
+  gameboard.axis = "y";
   expect(gameboard.placeShip(shipTwo, [1, 1])).not.toBeTruthy();
 });
 
@@ -69,14 +70,20 @@ it("should not place a ship if it will go out of bounds", () => {
 it("should not place a ship if it will go out of bounds", () => {
   const gameboard = new Gameboard();
   const ship = new Ship(3);
-  ship.orientation = 'v'
+  gameboard.axis = "y";
   expect(gameboard.placeShip(ship, [9, 1])).not.toBeTruthy();
 });
 
-
-// it("should take a pair of coords, if there is a ship -> induce hit(), otherwise just record coords", () => {
+// it("should be able to call makeAttack() on a gameboard", () => {
 //   const gameboard = new Gameboard();
-//   expect(gameboard).toBeCalled(1);
+//   expect(gameboard.makeAttack()).toHaveBeenCalled();
+// });
+
+// it("should be able to call makeAttack() on a gameboard", () => {
+//   const gameboard = new Gameboard();
+//   const ship = new Ship(3)
+//   gameboard.placeShip(ship, [1,1])
+//   expect(gameboard.makeAttack([1,1])).toBeTruthy();
 // });
 
 // it("should keep track of missed shorts", () => {
