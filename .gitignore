@@ -1,2 +1,9 @@
 node_modules
 babel.config.js
+.DS_Store
+package-lock.json
+package.json
+webpack.common.js
+webpack.dev.js
+webpack.prod.js
+.gitignore
