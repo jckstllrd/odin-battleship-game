@@ -74,24 +74,84 @@ it("should not place a ship if it will go out of bounds", () => {
   expect(gameboard.placeShip(ship, [9, 1])).not.toBeTruthy();
 });
 
-// it("should be able to call makeAttack() on a gameboard", () => {
-//   const gameboard = new Gameboard();
-//   expect(gameboard.makeAttack()).toHaveBeenCalled();
-// });
+/** ReceiveAttack function
+ *
+ * - DONE should take a pair of coords
+ * - DONE should determine if the coords have hit a ship or have missed
+ * - DONE should invoke hit on the ship if one has been hit
+ * - DONE if missed should record the coords into an array, as an attribute of gameboard
+ * - should be able to report if all ships have been sunk (this should be a private function that receiveAttack potentially calls after making a hit?)
+ */
 
-// it("should be able to call makeAttack() on a gameboard", () => {
-//   const gameboard = new Gameboard();
-//   const ship = new Ship(3)
-//   gameboard.placeShip(ship, [1,1])
-//   expect(gameboard.makeAttack([1,1])).toBeTruthy();
-// });
+it("receiveAttack should return true and mark a ship hit when attacking an occupied cell", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  gameboard.placeShip(ship, [0, 0]);
 
-// it("should keep track of missed shorts", () => {
-//   const gameboard = new Gameboard();
-//   expect(gameboard).toBeCalled(1);
-// });
+  // Attack the location where the ship is placed
+  expect(gameboard.receiveAttack([0, 0])).toBeTruthy();
 
-// it("should be able to report if all of their ships have been sunk", () => {
+  expect(ship.hits).toBe(1);
+});
+
+it("receiveAttack should return false and record coords when attacking an empty cell", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  gameboard.placeShip(ship, [0, 0]);
+
+  // Attack the location where there is no ship and record the miss
+  expect(gameboard.receiveAttack([9, 9])).not.toBeTruthy();
+  expect(gameboard.misses.at(-1)).toEqual([9, 9]);
+  expect(ship.hits).toBe(0);
+});
+
+it("placeShip should add the ship to the gameboards fleet of ships", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  gameboard.placeShip(ship, [0, 0]);
+
+  // Attack the location where there is no ship and record the miss
+  expect(gameboard.fleet.at(-1)).toEqual(ship)
+});
+
+// fleetSunk function checks to see if hits == length for each ship on gameboard
+it("isFleetSunk reports true if all ships have been sunk on gameboard", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  gameboard.placeShip(ship, [0, 0]);
+
+  gameboard.receiveAttack([0,0])
+  gameboard.receiveAttack([0,1])
+
+  // Attack the location where there is no ship and record the miss
+  expect(ship.hits).toBe(2)
+  expect(gameboard.isFleetSunk()).toBeTruthy();
+});
+
+it("isFleetSunk reports false if every ship not sunk", () => {
+  const gameboard = new Gameboard();
+  const ship = new Ship(2);
+  gameboard.placeShip(ship, [0, 0]);
+
+  gameboard.receiveAttack([0,0])
+  gameboard.receiveAttack([0,2])
+
+  // Attack the location where there is no ship and record the miss
+  expect(ship.hits).toBe(1)
+  expect(gameboard.isFleetSunk()).not.toBeTruthy();
+});
+
+
+
+
+// TODO: can come back to this
+// potentially make sure you can't attack the same coordinates twice 
+// it("ensures you cannot attack a cell twice", () => {
 //   const gameboard = new Gameboard();
-//   expect(gameboard).toBeCalled(1);
-// });
+//   const ship = new Ship(2);
+//   gameboard.placeShip(ship, [0, 0]);
+
+//   gameboard.receiveAttack([0,0])
+//   expect(gameboard.receiveAttack([0,0])).toBeFalsy()
+//   expect(gameboard.attacks.at(-1)).toEqual([0,0])
+// })
