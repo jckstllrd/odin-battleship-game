@@ -3,7 +3,6 @@ class Ship {
     this.length = length;
     this.hits = 0;
     this.sunk = false;
-    this.orientation = 'h'
   }
 
   hit() {
